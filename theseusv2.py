@@ -53,24 +53,36 @@ def trackmode(signal):
 
 
 def mazemode(history):
-    go_forward(20, 0.2)
-    stop()
-    signal = infra_module()
-    if signal == F:
-        trackmode(infra_module())
-    elif signal == V:
-        if history[0]:
-            while infra_module() != V:
-                leftSwingTurnobs(30, 0.1)
-        elif history[-1]:
-            while infra_module() != V:
-                rightSwingTurnobs(30, 0.1)
-        elif history[0] and history[-1]:
-            while 0 not in infra_module():
-                rightSwingTurnobs(30, 0.1)
-                stop()
-                sleep(0.5)
+    while beep[0] and beep[-1]:
+        stop()
+        signal = infra_module()
+        if signal == F:
+            if history[-1] == 0:
+                rightPointTurn(30,0.1)
+            else:
+                trackmode()
+        elif signal == V:
+            if not history[-1]:
+                while infra_module() != V:
+                    rightSwingTurnobs(30, 0.1)
+            else:
+                while infra_module() != V:
+                    leftSwingTurnobs(30, 0.1)
 
+
+            # if history[0]:
+            #     while infra_module() != V:
+            #         leftSwingTurnobs(30, 0.1)
+            # elif history[-1]:
+            #     while infra_module() != V:
+            #         rightSwingTurnobs(30, 0.1)
+            # elif history[0] and history[-1]:
+            #     while 0 not in infra_module():
+            #         rightSwingTurnobs(30, 0.1)
+            #         stop()
+            #         sleep(0.5)
+
+#beep=(a,b,c,d,e) a and e 둘중 하나라도 0이면 True
 
 if __name__ == "__main__":
     try:
